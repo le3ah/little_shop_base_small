@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
+  before_save :generate_slug
+
   has_many :items, foreign_key: 'merchant_id'
   has_many :orders
   has_many :order_items, through: :orders
@@ -111,5 +113,15 @@ class User < ApplicationRecord
       .group(:id)
       .order('revenue desc')
       .limit(3)
+  end
+
+  def to_param
+    slug
+  end
+
+  private
+
+  def generate_slug
+    self.slug = email.parameterize if email
   end
 end

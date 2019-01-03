@@ -17,6 +17,13 @@ RSpec.describe Item, type: :model do
     it { should have_many(:orders).through(:order_items) }
   end
 
+  describe 'Slug Generation' do
+    it ".generate_slug" do
+      item = create(:item, name: "Fancy Item 12")
+      expect(item.slug).to eq("fancy-item-12")
+    end
+  end
+
   describe 'class methods' do
     describe 'item popularity' do
       before :each do

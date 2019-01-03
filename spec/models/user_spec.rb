@@ -17,6 +17,12 @@ RSpec.describe User, type: :model do
     it { should have_many(:order_items).through(:orders) }
   end
 
+  describe  'slugs' do
+    it ".generate_slug" do
+      user = create(:user, name: "Emily", email: "emily_1@gmail.com")
+      expect(user.slug).to eq("emily_1-gmail-com")
+    end
+  end
   describe 'class methods' do
     describe 'merchant stats' do
       before :each do

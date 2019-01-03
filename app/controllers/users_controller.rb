@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find_by(slug: params[:slug])
     render file: 'errors/not_found', status: 404 unless current_user == @user || current_admin?
 
     @user.update(user_params)
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       if current_user == @user
         redirect_to profile_path
       elsif current_admin?
-        redirect_to admin_user_path(@user)
+        redirect_to admin_user_path(@user.slug)
       end
     else
       flash[:error] = 'Profile update failed'

@@ -14,29 +14,29 @@ RSpec.describe 'Item show page', type: :feature do
     create(:fulfilled_order_item, order: @order, item: @item, created_at: 1.hour.ago, updated_at: 30.minutes.ago)
   end
   it 'should hide Add To Cart button if inventory is 0' do
-    visit item_path(@item_2)
+    visit item_path(@item_2.slug)
     expect(page).to have_content('Merchant is out of stock, sorry')
     expect(page).to_not have_button('Add to Cart')
-    visit item_path(@item)
+    visit item_path(@item.slug)
   end
   describe 'should show details about a single item' do
     scenario 'as a visitor' do
-      visit item_path(@item)
+      visit item_path(@item.slug)
       expect(page).to have_button('Add to Cart')
     end
     scenario 'as a registered user' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-      visit item_path(@item)
+      visit item_path(@item.slug)
       expect(page).to have_button('Add to Cart')
     end
     scenario 'as a merchant' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-      visit item_path(@item)
+      visit item_path(@item.slug)
       expect(page).to_not have_button('Add to Cart')
     end
     scenario 'as an admin' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
-      visit item_path(@item)
+      visit item_path(@item.slug)
       expect(page).to_not have_button('Add to Cart')
     end
     after :each do
