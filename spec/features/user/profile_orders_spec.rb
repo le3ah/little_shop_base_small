@@ -42,7 +42,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
       end
       scenario 'when logged in as admin' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
-        visit admin_user_orders_path(@user)
+        visit admin_user_orders_path(@user.slug)
       end
       after :each do
         expect(page).to_not have_content('You have no orders yet')

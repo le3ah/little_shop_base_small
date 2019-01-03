@@ -31,7 +31,7 @@ RSpec.describe 'Admin User Show workflow', type: :feature do
       click_link 'Edit Profile'
       expect(current_path).to eq(edit_admin_user_path(@user_1))
 
-      email = "email_2@gmail.com"
+      email = "user_1@gmail.com"
       name = "Ian Douglas 2"
       address = "123 Main St 2"
       city = "Denver 2"
@@ -48,10 +48,10 @@ RSpec.describe 'Admin User Show workflow', type: :feature do
       fill_in :user_zip,	with: zip
       click_button 'Update User'
 
-      user_check = User.find(@user_1.id)
+      user_check = User.find_by_slug(@user_1.slug)
       expect(user_check.password_digest).to_not eq(@user_1.password_digest)
 
-      expect(current_path).to eq(admin_user_path(@user_1))
+      expect(current_path).to eq(admin_user_path(@user_1.slug))
       expect(page).to have_content("Profile Page for #{user_check.name}")
       expect(page).to have_content(user_check.email)
       within '#address' do

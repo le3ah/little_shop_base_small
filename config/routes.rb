@@ -35,8 +35,8 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :create, :show, :destroy]
   end
 
-  post '/admin/users/:merchant_id/items', to: 'dashboard/items#create', as: 'admin_user_items'
-  patch '/admin/users/:merchant_id/items/:id', to: 'dashboard/items#update', as: 'admin_user_item'
+  post '/admin/users/:merchant_slug/items', to: 'dashboard/items#create', as: 'admin_user_items'
+  patch '/admin/users/:merchant_slug/items/:id', to: 'dashboard/items#update', as: 'admin_user_item'
   namespace :admin do
     resources :users, only: [:index, :show, :edit], param: :slug do
       patch '/enable', to: 'users#enable', as: 'enable'
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       patch '/upgrade', to: 'users#upgrade', as: 'upgrade'
       resources :orders, only: [:index, :show]
     end
-    resources :merchants, only: [:show] do
+    resources :merchants, only: [:show], param: :slug do
       patch '/enable', to: 'merchants#enable', as: 'enable'
       patch '/disable', to: 'merchants#disable', as: 'disable'
       patch '/upgrade', to: 'merchants#downgrade', as: 'downgrade'

@@ -185,7 +185,7 @@ RSpec.describe 'Merchant Dashboard Items page' do
       scenario 'when logged in as admin' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
         @am_admin = true
-        visit new_admin_merchant_item_path(@merchant)
+        visit new_admin_merchant_item_path(@merchant.slug)
       end
       after :each do
         click_button 'Create Item'
