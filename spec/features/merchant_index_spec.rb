@@ -141,7 +141,7 @@ NYC, Seattle WA, Seattle FL
         click_link(@merchant.name)
       end
 
-      expect(current_path).to eq(admin_merchant_path(@merchant.slug))
+      expect(current_path).to eq(admin_merchant_path(@merchant))
       expect(page).to have_content("Merchant Dashboard for #{@merchant.name}")
     end
   end

@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show], param: :slug
   resources :merchants, only: [:index]
 
-
   get '/cart', to: 'cart#index'
   post '/cart/additem/:slug', to: 'cart#add_item', as: 'cart_add_item'
   post '/cart/addmoreitem/:slug', to: 'cart#add_more_item', as: 'cart_add_more_item'
