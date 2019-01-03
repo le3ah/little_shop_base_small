@@ -14,7 +14,7 @@ class Admin::ItemsController < Admin::BaseController
 
   def edit
     @merchant = User.find_by_slug(params[:merchant_slug])
-    @item = Item.find(params[:id])
+    @item = Item.find_by_slug(params[:slug])
     @form_path = [:admin, @merchant, @item]
     render "/dashboard/items/edit"
   end
