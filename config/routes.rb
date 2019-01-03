@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
 
+
   get '/cart', to: 'cart#index'
   post '/cart/additem/:id', to: 'cart#add_item', as: 'cart_add_item'
   post '/cart/addmoreitem/:id', to: 'cart#add_more_item', as: 'cart_add_more_item'
@@ -16,7 +17,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'session#destroy'
 
   get '/register', to: 'users#new', as: 'registration'
-  resources :users, only: [:create, :update]
+  resources :users, only: [:create, :update], param: :slug
 
   get '/dashboard', to: 'merchants#show', as: 'dashboard'
   namespace :dashboard do
@@ -37,7 +38,7 @@ Rails.application.routes.draw do
   post '/admin/users/:merchant_id/items', to: 'dashboard/items#create', as: 'admin_user_items'
   patch '/admin/users/:merchant_id/items/:id', to: 'dashboard/items#update', as: 'admin_user_item'
   namespace :admin do
-    resources :users, only: [:index, :show, :edit] do
+    resources :users, only: [:index, :show, :edit], param: :slug do
       patch '/enable', to: 'users#enable', as: 'enable'
       patch '/disable', to: 'users#disable', as: 'disable'
       patch '/upgrade', to: 'users#upgrade', as: 'upgrade'
