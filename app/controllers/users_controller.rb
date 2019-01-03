@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       if current_user == @user
         redirect_to profile_path
       elsif current_admin?
-        redirect_to admin_user_path(@user)
+        redirect_to admin_user_path(@user.slug)
       end
     else
       flash[:error] = 'Profile update failed'

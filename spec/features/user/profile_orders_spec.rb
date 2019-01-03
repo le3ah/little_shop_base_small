@@ -21,7 +21,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
       end
       scenario 'when logged in as admin' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
-        visit admin_user_orders_path(@user)
+        visit admin_user_orders_path(@user.slug)
       end
       after :each do
         expect(page).to have_content('You have no orders yet')
@@ -125,7 +125,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
       scenario 'when logged in as admin' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
         @am_admin = true
-        visit admin_user_order_path(@user, @order_1)
+        visit admin_user_order_path(@user.slug, @order_1)
       end
       after :each do
 
@@ -137,12 +137,12 @@ RSpec.describe 'Profile Orders page', type: :feature do
           expect(page).to have_content("Fulfilled: Yes")
         end
 
-        visit item_path(@item)
+        visit item_path(@item.slug)
         expect(page).to have_content("In stock: 100")
 
 
         ## confirm order 2 can be cancelled and inventory is not refunded to merchant since it wasn't fulfilled yet
-        visit @am_admin ? admin_user_order_path(@user, @order_2) : profile_order_path(@order_2)
+        visit @am_admin ? admin_user_order_path(@user.slug, @order_2) : profile_order_path(@order_2)
 
         within "#oitem-#{@oi_2.id}" do
           expect(page).to have_content("Fulfilled: No")
@@ -152,13 +152,13 @@ RSpec.describe 'Profile Orders page', type: :feature do
         click_button('Cancel Order')
 
         if @am_admin
-          expect(current_path).to eq(admin_user_order_path(@user, @order_2))
+          expect(current_path).to eq(admin_user_order_path(@user.slug, @order_2))
         else
           expect(current_path).to eq(profile_order_path(@order_2))
         end
         expect(page).to have_content("Status: cancelled")
 
-        visit item_path(@item)
+        visit item_path(@item.slug)
         expect(page).to have_content("In stock: 100")
 
 
