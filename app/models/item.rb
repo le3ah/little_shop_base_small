@@ -5,7 +5,8 @@ class Item < ApplicationRecord
 
   before_save :generate_slug
 
-  validates_presence_of :name, :description
+  validates_presence_of :description
+  validates :name, presence: true, uniqueness: true
   validates :price, presence: true, numericality: {
     only_integer: false,
     greater_than_or_equal_to: 0
