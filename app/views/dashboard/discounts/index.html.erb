@@ -1,0 +1,18 @@
+<h1>Bulk Discounts</h1>
+
+<%= link_to "Create Bulk Discount", new_dashboard_discount_path %>
+
+<% @discounts.each do |discount| %>
+<div id="discount-<%= discount.id %>">
+  <ul>
+  <li>Discount Type: <%= discount.discount_type %></li>
+  <% if discount.discount_type == "percentage" %>
+  <li>Discount Amount: <%= discount.discount_amount %>%</li>
+  <li>Item Quantity: <%= discount.quantity %></li>
+  <% else %>
+  <li>Discount Amount: $<%= discount.discount_amount %></li>
+  <li>Dollar Limit: $<%= discount.quantity %></li>
+  <% end %>
+  </ul>
+<% end %>
+</div>

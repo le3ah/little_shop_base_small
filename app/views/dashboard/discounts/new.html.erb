@@ -1,0 +1,9 @@
+<%= form_for [@merchant, @discount], :as => :discount, :url => dashboard_discounts_path do |f| %>
+<%= f.label :discount_type %>
+<%= f.text_field :discount_type %>
+<%= f.label :discount_amount %>
+<%= f.number_field :discount_amount %>
+<%= f.label :quantity %>
+<%= f.number_field :quantity %>
+<%= f.submit %>
+<% end %>

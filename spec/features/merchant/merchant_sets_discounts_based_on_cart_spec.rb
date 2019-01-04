@@ -26,10 +26,10 @@ describe  'as a merchant' do
 
       click_on 'Create Discount'
       last_discount = Discount.last
-
       expect(current_path).to eq(dashboard_discounts_path)
+
       within "#discount-#{last_discount.id}" do
-        expect(page).to have_content(discount_type)
+        expect(page).to have_content("Discount Type: percentage")
         expect(page).to have_content("Discount Amount: 10%")
         expect(page).to have_content("Item Quantity: 5")
 
