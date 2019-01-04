@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20190104002152) do
   create_table "discounts", force: :cascade do |t|
     t.string "discount_type"
     t.integer "discount_amount"
+    t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "merchant_id"
