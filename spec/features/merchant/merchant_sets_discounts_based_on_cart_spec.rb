@@ -71,13 +71,40 @@ describe  'as a merchant' do
       end
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1.reload)
       visit dashboard_discounts_path
-      
+
       within "#discount-#{discount_2.id}" do
         expect(page).to have_content("Discount Type: percentage")
         expect(page).to have_content("Discount Amount: 20%")
         expect(page).to have_content("Item Quantity: 10")
       end
       expect(page).to_not have_content("Discount ID: #{discount_1.id}")
+    end
+    it "should update a discount" do
+      merchant_1 = create(:merchant)
+      discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "10", quantity: "5")
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1)
+
+      visit dashboard_discounts_path
+
+      within "#discount-#{discount_1.id}" do
+        click_link "Edit Discount #{discount_1.id}"
+      end
+      expect(current_path).to eq(edit_dashboard_discount_path(discount_1))
+
+      fill_in :discount_discount_amount, with: 25
+      fill_in :discount_quantity, with: 10
+      click_on 'Update Discount'
+
+      expect(current_path).to eq(dashboard_discounts_path)
+      expect(page).to have_content('Discount updated')
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1.reload)
+
+      visit dashboard_discounts_path
+      within "#discount-#{discount_1.id}" do
+        expect(page).to have_content("Discount Type: percentage")
+        expect(page).to have_content("Discount Amount: 25%")
+        expect(page).to have_content("Item Quantity: 10")
+      end
     end
   end
   # context "I see the user's cart at a certain quantity" do

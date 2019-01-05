@@ -19,6 +19,22 @@ class Dashboard::DiscountsController < Dashboard::BaseController
     redirect_to dashboard_discounts_path
   end
 
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
+  def update
+    @discount = Discount.find(params[:id])
+    @discount.update(discount_params)
+    if @discount.save
+      flash[:success] = 'Discount updated'
+      redirect_to dashboard_discounts_path
+    else
+      flash[:error] = 'Discount update failed'
+      render :edit
+    end
+  end
+
   private
 
   def discount_params

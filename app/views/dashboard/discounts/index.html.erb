@@ -14,7 +14,8 @@
   <li>Discount Amount: $<%= discount.discount_amount %></li>
   <li>Dollar Limit: $<%= discount.quantity %></li>
   <% end %>
-  <li> <%= link_to "Delete Discount #{discount.id}", { action: :destroy, id: discount.id}, method: :delete %></li>
+  <li><%= link_to "Delete Discount #{discount.id}", { action: :destroy, id: discount.id}, method: :delete %></li>
+  <li><%= link_to "Edit Discount #{discount.id}", edit_dashboard_discount_path(discount) %></li>
   </ul>
 <% end %>
 </div>
