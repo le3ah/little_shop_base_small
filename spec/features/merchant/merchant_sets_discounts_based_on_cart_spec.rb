@@ -53,10 +53,31 @@ describe  'as a merchant' do
       expect(current_path).to eq(dashboard_discounts_path)
 
       within "#discount-#{last_discount.id}" do
+        expect(page).to have_content("Discount ID: #{last_discount.id}")
         expect(page).to have_content("Discount Type: dollar")
         expect(page).to have_content("Discount Amount: $5")
         expect(page).to have_content("Dollar Limit: $50")
       end
+    end
+    it "should delete a discount" do
+      merchant_1 = create(:merchant)
+      discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "10", quantity: "5")
+      discount_2 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "20", quantity: "10")
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1)
+
+      visit dashboard_discounts_path
+      within "#discount-#{discount_1.id}" do
+        click_link("Delete Discount #{discount_1.id}")
+      end
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1.reload)
+      visit dashboard_discounts_path
+      
+      within "#discount-#{discount_2.id}" do
+        expect(page).to have_content("Discount Type: percentage")
+        expect(page).to have_content("Discount Amount: 20%")
+        expect(page).to have_content("Item Quantity: 10")
+      end
+      expect(page).to_not have_content("Discount ID: #{discount_1.id}")
     end
   end
   # context "I see the user's cart at a certain quantity" do

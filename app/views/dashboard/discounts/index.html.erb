@@ -5,6 +5,7 @@
 <% @discounts.each do |discount| %>
 <div id="discount-<%= discount.id %>">
   <ul>
+    <li>Discount ID: <%= discount.id %></li>
   <li>Discount Type: <%= discount.discount_type %></li>
   <% if discount.discount_type == "percentage" %>
   <li>Discount Amount: <%= discount.discount_amount %>%</li>
@@ -13,6 +14,7 @@
   <li>Discount Amount: $<%= discount.discount_amount %></li>
   <li>Dollar Limit: $<%= discount.quantity %></li>
   <% end %>
+  <li> <%= link_to "Delete Discount #{discount.id}", { action: :destroy, id: discount.id}, method: :delete %></li>
   </ul>
 <% end %>
 </div>
