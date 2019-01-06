@@ -18,15 +18,7 @@
   <% @items.each do |item| %>
     <%= tag.div id: "item-#{item.id}" do %>
 
-      <p><%= item.user.name %> offers: </p>
-      <% item.user.discounts.each do |discount| %>
-        <% if discount.discount_type == "percentage" %>
-        <p><%= discount.discount_amount %>% off of orders of <%= discount.quantity %> or more </p>
-        <% else %>
-        <p>$<%= discount.discount_amount %> off of orders of $<%= discount.quantity %> or more </p>
-        <% end %>
-      <% end %>
-      <br>
+
       <%= render partial: "cart_item", locals: {item: item, img_width: 150} %>
     <% end %>
   <% end %>

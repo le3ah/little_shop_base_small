@@ -17,11 +17,9 @@ describe 'as a registered user' do
 
     visit cart_path
 
-    within "#item-#{item_1.id}" do
-      expect(page).to have_content("#{merchant_1.name} offers: ")
-      expect(page).to have_content("#{discount_1.discount_amount}% off of orders of #{discount_1.quantity} or more")
-      expect(page).to have_content("#{discount_2.discount_amount}% off of orders of #{discount_2.quantity} or more")
-    end
+    expect(page).to have_content("#{merchant_1.name} offers: ")
+    expect(page).to have_content("#{discount_1.discount_amount}% off of orders of #{discount_1.quantity} or more")
+    expect(page).to have_content("#{discount_2.discount_amount}% off of orders of #{discount_2.quantity} or more")
   end
   it "I see what dollar discounts apply to my order" do
     user_1 = create(:user)
@@ -37,10 +35,8 @@ describe 'as a registered user' do
 
     visit cart_path
 
-    within "#item-#{item_1.id}" do
-      expect(page).to have_content("#{merchant_1.name} offers: ")
-      expect(page).to have_content("$#{discount_1.discount_amount} off of orders of $#{discount_1.quantity} or more")
-      expect(page).to have_content("$#{discount_2.discount_amount} off of orders of $#{discount_2.quantity} or more")
-    end
+    expect(page).to have_content("#{merchant_1.name} offers: ")
+    expect(page).to have_content("$#{discount_1.discount_amount} off of orders of $#{discount_1.quantity} or more")
+    expect(page).to have_content("$#{discount_2.discount_amount} off of orders of $#{discount_2.quantity} or more")
   end
 end

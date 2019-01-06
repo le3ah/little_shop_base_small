@@ -5,6 +5,18 @@
     <p>Merchant: <%= item.user.name %></p>
     <p>Price: <%= number_to_currency(item.price) %></p>
     <p>Quantity: <%= @cart.count_of(item.id) %> of <%= item.inventory %> available</p>
+    <p><%= item.user.name %> offers: </p>
+    <% item.user.discounts.each do |discount| %>
+      <ul>
+      <% if discount.discount_type == "percentage" %>
+        <li><%= discount.discount_amount %>% off of orders of <%= discount.quantity %> or more </li>
+      <% else %>
+        <li>$<%= discount.discount_amount %> off of orders of $<%= discount.quantity %> or more </li>
+      <% end %>
+      </ul>
+    <% end %>
+    <br>
+
     <p>Subtotal: <%= number_to_currency(@cart.subtotal(item.id)) %></p>
     <p>
     <% if @cart.count_of(item.id) < item.inventory %>
