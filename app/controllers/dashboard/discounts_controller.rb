@@ -1,12 +1,13 @@
 class Dashboard::DiscountsController < Dashboard::BaseController
-  before_action :check_discount_type, only: [:new, :create]
 
   def index
     @discounts = current_user.discounts
   end
 
   def new
+    @merchant = current_user
     @discount = Discount.new
+    @existing_discounts = @merchant.discounts.count > 0
   end
 
   def create
@@ -46,16 +47,6 @@ class Dashboard::DiscountsController < Dashboard::BaseController
   private
 
   def discount_params
-    if @merchant_discount_type
-      params[:discount][:discount_type] = @merchant_discount_type
-    end
     params.require(:discount).permit(:discount_type, :discount_amount, :quantity)
-  end
-
-  def check_discount_type
-
-    if current_user.discounts.count > 0
-      @merchant_discount_type = current_user.discounts.first.discount_type
-    end
   end
 end

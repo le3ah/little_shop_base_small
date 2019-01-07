@@ -3,8 +3,8 @@ require 'rails_helper'
 describe  'as a merchant' do
   context 'I visit my dashboard page' do
     it "should click a link to create a bulk discount - percentage" do
-      merchant_1 = create(:merchant)
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1)
+      merchant_10 = create(:merchant)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_10)
 
       visit dashboard_path
 
@@ -18,9 +18,7 @@ describe  'as a merchant' do
 
       expect(current_path).to eq(new_dashboard_discount_path)
 
-      discount_type = "percentage"
-
-      fill_in :discount_discount_type, with: discount_type
+      fill_in :discount_discount_type, with: "percentage"
       fill_in :discount_discount_amount, with: 10
       fill_in :discount_quantity, with: 5
 
@@ -43,9 +41,7 @@ describe  'as a merchant' do
       click_link("Create Bulk Discount")
       expect(current_path).to eq(new_dashboard_discount_path)
 
-      discount_type = "dollar"
-
-      fill_in :discount_discount_type, with: discount_type
+      fill_in :discount_discount_type, with: "dollar"
       fill_in :discount_discount_amount, with: 5
       fill_in :discount_quantity, with: 50
       click_on 'Create Discount'
@@ -59,7 +55,7 @@ describe  'as a merchant' do
         expect(page).to have_content("Dollar Limit: $50")
       end
     end
-    xit "should not be able to add dollar discount if existing percentage discount for merchant" do
+    it "should not be able to add dollar discount if existing percentage discount for merchant" do
       merchant_1 = create(:merchant)
       discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "10", quantity: "5")
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1)
@@ -68,17 +64,14 @@ describe  'as a merchant' do
 
       click_link("Create Bulk Discount")
       expect(current_path).to eq(new_dashboard_discount_path)
+      expect(page).to_not have_field(:discount_discount_type)
 
       discount_type = "dollar"
 
-      fill_in :discount_discount_type, with: discount_type
       fill_in :discount_discount_amount, with: 5
       fill_in :discount_quantity, with: 50
       click_on 'Create Discount'
-
-      expect(page).to have_content("New discount not created")
-      expect(current_path).to eq(new_dashboard_discount_path)
-
+      expect(current_path).to eq(dashboard_discounts_path)
     end
     it "should delete a discount" do
       merchant_1 = create(:merchant)
