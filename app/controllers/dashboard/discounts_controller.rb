@@ -7,12 +7,20 @@ class Dashboard::DiscountsController < Dashboard::BaseController
   def new
     @merchant = current_user
     @discount = Discount.new
-    @existing_discounts = @merchant.discounts.count > 0
   end
 
   def create
     @merchant = current_user
-    @discount = @merchant.discounts.create(discount_params)
+    if @merchant.discounts == []
+      @discount = @merchant.discounts.create(discount_params)
+    else
+      if @merchant.discounts.first.discount_type == discount_params[:discount_type]
+        @discount = @merchant.discounts.create(discount_params)
+      else
+        flash[:notice] = "Discount types must match"
+        @discount = Discount.new
+      end
+    end
     if @discount.save
       flash[:success] = "New discount created"
       redirect_to dashboard_discounts_path

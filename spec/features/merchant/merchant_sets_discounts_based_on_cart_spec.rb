@@ -64,14 +64,13 @@ describe  'as a merchant' do
 
       click_link("Create Bulk Discount")
       expect(current_path).to eq(new_dashboard_discount_path)
-      expect(page).to_not have_field(:discount_discount_type)
 
-      discount_type = "dollar"
-
+      fill_in :discount_discount_type, with: "dollar"
       fill_in :discount_discount_amount, with: 5
       fill_in :discount_quantity, with: 50
       click_on 'Create Discount'
-      expect(current_path).to eq(dashboard_discounts_path)
+      
+      expect(page).to have_content("Discount types must match")
     end
     it "should delete a discount" do
       merchant_1 = create(:merchant)
