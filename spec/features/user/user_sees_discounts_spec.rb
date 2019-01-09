@@ -3,23 +3,6 @@ require 'rails_helper'
 include ActionView::Helpers::NumberHelper
 
 describe 'as a registered user' do
-  it "I see what percentage discounts apply to my order" do
-    user_1 = create(:user)
-    merchant_1 = create(:merchant)
-    item_1 = create(:item, user: merchant_1, inventory: 20, price: 2)
-    discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "10", quantity: "5")
-    discount_2 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "20", quantity: "10")
-
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
-
-    visit item_path(item_1.slug)
-    click_button "Add to Cart"
-
-    visit cart_path
-
-    expect(page).to have_content("The following discounts apply to your order upon checkout:")
-
-  end
   it "I see what dollar discounts apply to my order" do
     user_1 = create(:user)
     merchant_1 = create(:merchant)
