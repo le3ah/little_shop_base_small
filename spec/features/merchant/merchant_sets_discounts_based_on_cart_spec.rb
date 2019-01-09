@@ -69,7 +69,7 @@ describe  'as a merchant' do
       fill_in :discount_discount_amount, with: 5
       fill_in :discount_quantity, with: 50
       click_on 'Create Discount'
-      
+
       expect(page).to have_content("Discount types must match")
     end
     it "should delete a discount" do
@@ -138,6 +138,31 @@ describe  'as a merchant' do
 
       expect(current_path).to eq(dashboard_discount_path(discount_1))
       expect(page).to have_content('Discount update failed')
+    end
+    it "should create a new bulk discount when one exists - dollar" do
+      merchant_1 = create(:merchant)
+      discount_1 = merchant_1.discounts.create(discount_type: "dollar", discount_amount: "10", quantity: "5")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_1)
+
+      visit dashboard_discounts_path
+
+      click_link("Create Bulk Discount")
+      expect(current_path).to eq(new_dashboard_discount_path)
+
+      fill_in :discount_discount_type, with: "dollar"
+      fill_in :discount_discount_amount, with: 20
+      fill_in :discount_quantity, with: 10
+      click_on 'Create Discount'
+      last_discount = Discount.last
+      expect(current_path).to eq(dashboard_discounts_path)
+
+      within "#discount-#{last_discount.id}" do
+        expect(page).to have_content("Discount ID: #{last_discount.id}")
+        expect(page).to have_content("Discount Type: dollar")
+        expect(page).to have_content("Discount Amount: $20")
+        expect(page).to have_content("Dollar Limit: $10")
+      end
     end
   end
 end

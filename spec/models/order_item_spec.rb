@@ -35,7 +35,9 @@ RSpec.describe OrderItem, type: :model do
     it "#discount_subtotal" do
       merchant_1 = create(:merchant)
       merchant_2 = create(:merchant)
+      merchant_3 = create(:merchant)
       item_1 = create(:item, user: merchant_1, inventory: 20, price: 2)
+      item_2 = create(:item, user: merchant_3, inventory: 25, price: 3)
       item_4 = create(:item, user: merchant_1, inventory: 10, price: 2)
       item_3 = create(:item, user: merchant_2, inventory: 20, price: 2)
       discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: 10, quantity: 5)
@@ -47,11 +49,13 @@ RSpec.describe OrderItem, type: :model do
       order_item_1 = create(:order_item, quantity: 5, price: 2, item: item_1, order: order_1)
       order_item_2 = create(:order_item, quantity: 5, price: 2, item: item_4, order: order_1)
       order_item_3 = create(:order_item, quantity: 50, price: 2, item: item_3, order: order_2)
+      order_item_4 = create(:order_item, quantity: 15, price: 3, item: item_2, order: order_2)
 
       expect(order_item_1.discount_subtotal).to eq(8)
       expect(order_item_2.discount_subtotal).to eq(8)
 
       expect(order_item_3.discount_subtotal).to eq(90)
+      expect(order_item_4.discount_subtotal).to eq(45)
     end
     it "#discount_selector" do
       merchant_1 = create(:merchant)

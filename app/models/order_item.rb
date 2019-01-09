@@ -35,7 +35,7 @@ class OrderItem < ApplicationRecord
 
   def discount_subtotal
     if discount_selector == 0 || discount_selector == nil
-      1
+      1 * subtotal
     elsif discount_selector.discount_type == "percentage"
       percent_off = (subtotal.to_f * (discount_selector.discount_amount.to_f / 100).to_f).round(2)
       subtotal - percent_off

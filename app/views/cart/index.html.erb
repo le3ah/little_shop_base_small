@@ -16,6 +16,9 @@
   <% end %>
 
   <% @items.each do |item| %>
+  <% if item.discounts_exist? %>
+  <p>The following discounts apply to your order upon checkout: </p>
+  <% end %>
     <%= tag.div id: "item-#{item.id}" do %>
 
 
