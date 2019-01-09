@@ -42,7 +42,6 @@ RSpec.describe OrderItem, type: :model do
       discount_2 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: 20, quantity: 10)
       discount_3 = merchant_2.discounts.create(discount_type: "dollar", discount_amount: 10, quantity: 50)
 
-
       order_1 = create(:order)
       order_2 = create(:order)
       order_item_1 = create(:order_item, quantity: 5, price: 2, item: item_1, order: order_1)

@@ -202,5 +202,23 @@ RSpec.describe Order, type: :model do
       expect(order_1.limit_selector(merchant_1.id)).to eq(20)
       expect(order_2.limit_selector(merchant_2.id)).to eq(18)
     end
+    it "#discount_grandtotal" do
+      merchant_1 = create(:merchant)
+      merchant_2 = create(:merchant)
+      item_1 = create(:item, user: merchant_1, inventory: 20, price: 2)
+      item_4 = create(:item, user: merchant_1, inventory: 10, price: 2)
+      item_3 = create(:item, user: merchant_2, inventory: 20, price: 2)
+      discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: 10, quantity: 5)
+      discount_2 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: 20, quantity: 10)
+      discount_3 = merchant_2.discounts.create(discount_type: "dollar", discount_amount: 10, quantity: 50)
+
+      order_1 = create(:order)
+
+      order_item_1 = create(:order_item, quantity: 5, price: 2, item: item_1, order: order_1)
+      order_item_2 = create(:order_item, quantity: 5, price: 2, item: item_4, order: order_1)
+      order_item_3 = create(:order_item, quantity: 50, price: 2, item: item_3, order: order_1)
+
+      expect(order_1.discount_grandtotal).to eq(106)
+    end
   end
 end

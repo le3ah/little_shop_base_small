@@ -49,6 +49,10 @@ class Item < ApplicationRecord
     slug
   end
 
+  def discounts_exist?
+    user.discounts.count > 0
+  end
+
   private
 
   def generate_slug
