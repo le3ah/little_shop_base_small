@@ -38,6 +38,12 @@ class Cart
     item.price * count_of(item_id)
   end
 
+  # def discounted_subtotal
+  #   item = Item.find(item_id)
+  #   item.price * count_of(item_id)
+  #   order_item = OrderItem.new()
+  # end
+
   def grand_total
     @contents.keys.map do |item_id|
       subtotal(item_id)

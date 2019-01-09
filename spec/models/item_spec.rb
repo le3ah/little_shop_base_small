@@ -74,5 +74,13 @@ RSpec.describe Item, type: :model do
       expect(item_1.ever_ordered?).to eq(true)
       expect(item_2.ever_ordered?).to eq(false)
     end
+    it ".discounts_exist" do
+      user_1 = create(:user)
+      merchant_1 = create(:merchant)
+      item_1 = create(:item, user: merchant_1, inventory: 20, price: 2)
+      discount_1 = merchant_1.discounts.create(discount_type: "percentage", discount_amount: "10", quantity: "5")
+
+      expect(item_1.discounts_exist?).to eq true
+    end
   end
 end

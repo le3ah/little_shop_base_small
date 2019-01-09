@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :items, foreign_key: 'merchant_id'
   has_many :orders
   has_many :order_items, through: :orders
-
+  has_many :discounts, foreign_key: 'merchant_id'
   validates_presence_of :name, :address, :city, :state, :zip
   validates :email, presence: true, uniqueness: true
 

@@ -7,6 +7,21 @@
   <%= @order.user.city %>, <%= @order.user.state %> <%= @order.user.zip %>
 <% end %>
 
+<% @order.order_items.each do |order_item| %>
+  <ul>
+    <% if order_item.discount_selector  %>
+      <% if order_item.discount_selector.discount_type == "percentage" %></li>
+      <li>You've offered <%= order_item.discount_selector.discount_amount %>% off of </li>
+      <li><%= order_item.discount_selector.quantity %> items or more.</li>
+      <% else %>
+      <li>You've offered $<%= order_item.discount_selector.discount_amount %> off of </li>
+      <li>orders of $<%= order_item.discount_selector.quantity %> or more</li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+
 <%= tag.div id: 'order-details' do %>
   <p>Status: <%= @order.status %></p>
 

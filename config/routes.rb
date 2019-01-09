@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: 'merchants#show', as: 'dashboard'
   namespace :dashboard do
+    resources :discounts, except: [:show]
     resources :orders, only: [:show] do
       patch '/items/:slug/fulfill', to: 'orders#fulfill_item', as: 'item_fulfill'
     end

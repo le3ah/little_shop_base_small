@@ -63,6 +63,24 @@ class Order < ApplicationRecord
       .first.to_i
   end
 
+  def limit_selector(merchant_id)
+    order_items.map do |order_item|
+      if order_item.discount_type
+        if order_item.discount_type == "dollar"
+         my_revenue_value(merchant_id)
+        else
+         my_item_count(merchant_id)
+        end
+      end
+    end.first
+  end
+
+  def discount_grandtotal
+    order_items.map do |order_item|
+      order_item.discount_subtotal
+    end.sum
+  end
+
   def my_items(merchant_id)
     Item.joins(order_items: :order)
       .where(
